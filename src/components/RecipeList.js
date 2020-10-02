@@ -1,8 +1,13 @@
 import React from "react";
+import Modal from "react-modal";
+import Card from "./Card";
 
 class RecipeLists extends React.Component {
   constructor() {
     super();
+    this.state = { modalIsOpen: false };
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
 
     this.customStyles = {
       content: {
@@ -11,13 +16,19 @@ class RecipeLists extends React.Component {
       }
     };
   }
-
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  };
+  closeModal() {
+    this.setState({ modalIsOpen: false });
+  }
 
   render() {
     return (
       <div
         className="column"
         style={{ marginBottom: "10px" }}
+        onClick={this.openModal}
       >
         <div className="ui link cards">
           <div className="card" onClick={this.onClick}>
@@ -35,7 +46,29 @@ class RecipeLists extends React.Component {
                   Kcal
                 </div>
               </div>
+              {/* <button className="fluid ui teal button" onClick={this.openModal}>
+                Show More
+              </button> */}
             </div>
+            <Modal
+              isOpen={this.state.modalIsOpen}
+              onRequestClose={this.closeModal}
+              contentLabel="Selected Item"
+              style={this.customStyles}
+              ariaHideApp={false}
+            >
+              <Card
+                title={this.props.title}
+                source={this.props.source}
+                nutrients={this.props.nutrients}
+                colories={this.props.calories}
+                image={this.props.image}
+                dietLabels={this.props.dietLabels}
+                totalTime={this.props.totalTime}
+                totalWeight={this.props.totalWeight}
+                ingredients={this.props.ingredients}
+              ></Card>
+            </Modal>
           </div>
         </div>
       </div>
